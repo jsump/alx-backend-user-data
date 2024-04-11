@@ -8,7 +8,6 @@ Return log message obfuscated
 
 import re
 import logging
-import logging
 from typing import List, Tuple
 
 
