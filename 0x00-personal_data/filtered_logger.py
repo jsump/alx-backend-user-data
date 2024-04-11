@@ -65,7 +65,7 @@ def get_logger() -> logging.Logger:
     handler = logging.StreamHandler()
     pii_fields = ('name', 'email', 'phone_number', 'credit_card', 'ssn')
     formatter = RedactingFormatter(pii_fields)
-    handler.set(Formatter)
+    handler.set(formatter)
 
     logger.addHandler(handler)
     return logger
