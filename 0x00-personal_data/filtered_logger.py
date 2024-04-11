@@ -56,6 +56,23 @@ class RedactingFormatter(logging.Formatter):
         return new_msg
 
 
+def get_logger() -> logging.Logger:
+    """
+    Return logging.Logger object
+    """
+    logger = logging.getLogger('use_data')
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    handler = logging.StreamHandler()
+    pii_fields = ('name', 'email', 'phone', 'ssn', 'password')
+    formatter = RedactingFormatter(pii_fields)
+    handler.setFormatter(formatter)
+
+    logger.addHandler(handler)
+    return logger
+
+
 def get_db() -> Optional[MySQLConnection]:
     """Connect to db"""
     username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
@@ -73,29 +90,8 @@ def get_db() -> Optional[MySQLConnection]:
             )
             return conn
         except mysql.connector.Error as e:
-            print(f"Error connecting to database: {e}")
-            return None
-    else:
-        print("Database name not provided in environment variable \
-                PERSONAL_DATA_DB_NAME")
-        return None
-
-
-def get_logger() -> logging.Logger:
-    """
-    Return logging.Logger object
-    """
-    logger = logging.getLogger('use_data')
-    logger.setLevel(logging.INFO)
-    logger.propagate = False
-
-    handler = logging.StreamHandler()
-    pii_fields = ('name', 'email', 'phone', 'ssn', 'password')
-    formatter = RedactingFormatter(pii_fields)
-    handler.setFormatter(formatter)
-
-    logger.addHandler(handler)
-    return logger
+            raise ConnecionError(f"Error connecting to database: {e}")
+    else:        raise ValueError("Database name not provided in environment \                variable PERSONAL_DATA_DB_NAME")
 
 
 PII_FIELDS: Tuple[str, ...] = (
