@@ -16,7 +16,6 @@ def filter_datum(fields, redaction, message, separator):
     pattern = re.compile(
             r'({})=([^{}]+)'.format('|'.join(fields), separator))
     return pattern.sub(
-            lambda m: m.group(1) + '=' + \
-                    redaction * min(1, len(m.group(2))),
+            lambda m: m.group(1) + '=' + redaction * min(1, len(m.group(2))),
             message
         )
