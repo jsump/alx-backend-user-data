@@ -10,7 +10,8 @@ import re
 import logging
 import mysql.connector
 import os
-from typing import List, Tuple, Optional
+import datetime
+from typing import List, Tuple, Optional, Union, Any
 from mysql.connector.connection import MySQLConnection
 
 
@@ -91,8 +92,34 @@ def get_db() -> Optional[MySQLConnection]:
             return conn
         except mysql.connector.Error as e:
             raise ConnecionError(f"Error connecting to database: {e}")
-    else:        raise ValueError("Database name not provided in environment \                variable PERSONAL_DATA_DB_NAME")
+    else:
+        raise ValueError("Database name not provided in environment \
+                variable PERSONAL_DATA_DB_NAME")
+
+
+def main() -> None:
+    """MAin file"""
+    db_connection = get_db()
+    if db_connection:
+        cursor = db_connection.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users")
+        users_data = cursor.fetchall()
+
+        filtered_fields = ["name", "email", "phone", "ssn", "password"]
+
+        for row in users_data:
+            users_info = "; ".join(
+                    f"{field}={('***' if field in filtered_fields else value)}"
+                    for field, value in row.items())
+            current_time = datetime.datetime.now().strftime(
+                    "%Y-%m-%d %H:%M:%S,%f")
+            print(f"[HOLERTON] user_data INFO {current_time}: {users_info}; \
+                    Filtered fields: {', '.join(filtered_fields)}")
 
 
 PII_FIELDS: Tuple[str, ...] = (
         'name', 'email', 'phone', 'ssn', 'password')
+
+
+if __name__ == "__main__":
+    main()
