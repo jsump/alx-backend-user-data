@@ -8,7 +8,8 @@ Return log message obfuscated
 
 import re
 import logging
-from typing import List
+import logging
+from typing import List, Tuple
 
 
 class RedactingFormatter(logging.Formatter):
@@ -51,3 +52,24 @@ class RedactingFormatter(logging.Formatter):
                 lambda m: m.group(1) + '=' + redaction * min(1, len(
                     m.group(2))), message)
         return new_msg
+
+
+def get_logger() -> logging.Logger:
+    """
+    Return logging.Logger object
+    """
+    logger = logging.getLogger('use_data')
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    handler = logging.StreamHandler()
+    pii_fields = ('name', 'email', 'phone_number', 'credit_card', 'ssn')
+    formatter = RedactingFormatter(pii_fields)
+    handler.set(Formatter)
+
+    logger.addHandler(handler)
+    return logger
+
+
+PII_FIELDS: Tuple[str, ...] = (
+        'name', 'email', 'phone_number', 'credit_card', 'ssn')
