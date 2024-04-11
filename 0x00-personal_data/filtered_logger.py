@@ -8,7 +8,10 @@ Return log message obfuscated
 
 import re
 import logging
-from typing import List, Tuple
+import mysql.connector
+import os
+from typing import List, Tuple, Optional
+from mysql.connector.connection import MySQLConnection
 
 
 class RedactingFormatter(logging.Formatter):
@@ -51,6 +54,31 @@ class RedactingFormatter(logging.Formatter):
                 lambda m: m.group(1) + '=' + redaction * min(1, len(
                     m.group(2))), message)
         return new_msg
+
+
+def get_db() -> Optional[MySQLConnection]:
+    """Connect to db"""
+    username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+
+    if db_name:
+        try:
+            conn = mysql.connector.connect(
+                    user=username,
+                    password=password,
+                    host=host,
+                    database=db_name
+            )
+            return conn
+        except mysql.connector.Error as e:
+            print(f"Error connecting to database: {e}")
+            return None
+    else:
+        print("Database name not provided in environment variable \
+                PERSONAL_DATA__DB_NAME")
+        return None
 
 
 def get_logger() -> logging.Logger:
