@@ -13,8 +13,7 @@ def filter_datum(fields, redaction, message, separator):
     """
     This method returns the message obfuscated
     """
-    pattern = re.compile(
-            r'({})=([^{}]+)'.format('|'.join(fields), separator))
-    return pattern.sub(
+    return re.sub(
+            r'({})=([^{}]+)'.format('|'.join(fields), separator),
             lambda m: m.group(1) + '=' + redaction * min(1, len(m.group(2))),
             message)
