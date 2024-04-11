@@ -77,7 +77,7 @@ def get_db() -> Optional[MySQLConnection]:
             return None
     else:
         print("Database name not provided in environment variable \
-                PERSONAL_DATA__DB_NAME")
+                PERSONAL_DATA_DB_NAME")
         return None
 
 
