@@ -10,8 +10,7 @@ import re
 import logging
 import mysql.connector
 import os
-import datetime
-from typing import List, Tuple, Optional, Union, Any
+from typing import List, Tuple, Optional
 from mysql.connector.connection import MySQLConnection
 
 
@@ -73,9 +72,6 @@ def get_logger() -> logging.Logger:
     logger.addHandler(handler)
     return logger
 
-PII_FIELDS: Tuple[str, ...] = (
-        'name', 'email', 'phone', 'ssn', 'password')
-
 
 def get_db() -> Optional[MySQLConnection]:
     """Connect to db"""
@@ -96,3 +92,7 @@ def get_db() -> Optional[MySQLConnection]:
         except mysql.connector.Error as e:
             raise ConnecionError(f"Error connecting to database: {e}")
     else:        raise ValueError("Database name not provided in environment \                variable PERSONAL_DATA_DB_NAME")
+
+
+PII_FIELDS: Tuple[str, ...] = (
+        'name', 'email', 'phone', 'ssn', 'password')
