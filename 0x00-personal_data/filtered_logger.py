@@ -63,7 +63,7 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
 
     handler = logging.StreamHandler()
-    pii_fields = ('name', 'email', 'phone', 'password', 'ssn')
+    pii_fields = ('name', 'email', 'phone', 'ssn', 'password')
     formatter = RedactingFormatter(pii_fields)
     handler.setFormatter(formatter)
 
@@ -72,4 +72,4 @@ def get_logger() -> logging.Logger:
 
 
 PII_FIELDS: Tuple[str, ...] = (
-        'name', 'email', 'phone', 'password', 'ssn')
+        'name', 'email', 'phone', 'ssn', 'password')
