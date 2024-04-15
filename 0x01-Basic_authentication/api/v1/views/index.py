@@ -23,4 +23,16 @@ def stats() -> str:
     from models.user import User
     stats = {}
     stats['users'] = User.count()
-    return jsonify(stats)
+    return jsonify(stats)@app_views.route('/status', methods=['GET'], strict_slashes=False)
+
+@app_views.route('/api/v1/unaothorized', methods=['GET'])
+def unauthorized_endpoint() -> str:
+    """ GET /api/v1/status and abort"""
+    abort(401)
+
+
+@app_views.route('/api/v1/forbidden', methods=['GET'])
+def forbidden_endpoint() -> str:
+    """ GET /api/v1/status and abort"""
+    abort(403)
+

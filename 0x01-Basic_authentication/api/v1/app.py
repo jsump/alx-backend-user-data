@@ -25,6 +25,12 @@ def unauthorized(error):
     """ Handle errors on requests"""
     return jsonify({"error":"Unauthprized"}), 401
 
+@app.errorhandler(403)
+def forbidden(error):
+    """ Handle requests where user is authenticated
+    but not alowed access to resource"""
+    return jsonify({"error": "Forbidden"})
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
