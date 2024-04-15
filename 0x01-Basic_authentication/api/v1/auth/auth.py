@@ -21,12 +21,23 @@ class Auth:
         THis method takes the path and exclused_paths as parameters
         Returns: False
         """
-        return False
+        if path is None:
+            return False
+        
+        if excluded_paths is None or len(excluded_paths) == 0:
+            return False
+        
+        for excluded_path in excluded_paths:
+            if path == excluded_path or path.startswith(excluded_path):
+                return False
+        
+        return True
     
-    def authorized_header(self, request=None) -> str:
+    def authorization_header(self, request=None) -> str:
         """
         This method takes an optional request parameter
-        of flask bject header and returns None
+        of flask object header
+        Return: None
         """
         return None
     
