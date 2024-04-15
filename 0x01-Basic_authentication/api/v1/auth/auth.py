@@ -23,15 +23,16 @@ class Auth:
         """
         return False
     
-    def auth_header(self, request=None) -> str:
+    def authorized_header(self, request=None) -> str:
         """
         This method takes an optional request parameter
         of flask bject header and returns None
         """
         return None
     
-    def curr_user(self, request=None) -> TypeVar('User'):
+    def current_user(self, request=None) -> TypeVar('User'):
         """
         This method takes in the current user as a parameter
         Return: None
         """
+        return None
