@@ -22,17 +22,16 @@ class Auth:
         Returns: False
         """
         if path is None:
-            return False
-        
+            return True
+
         if excluded_paths is None or len(excluded_paths) == 0:
             return False
-        
-        for excluded_path in excluded_paths:
-            if path == excluded_path or path.startswith(excluded_path):
-                return False
-        
-        return True
-    
+
+        path = path.rstrip('/')
+        excluded_paths = [p.rstrip('/') for p in excluded_paths]
+
+        return path not in excluded_paths
+
     def authorization_header(self, request=None) -> str:
         """
         This method takes an optional request parameter
@@ -40,7 +39,7 @@ class Auth:
         Return: None
         """
         return None
-    
+
     def current_user(self, request=None) -> TypeVar('User'):
         """
         This method takes in the current user as a parameter
