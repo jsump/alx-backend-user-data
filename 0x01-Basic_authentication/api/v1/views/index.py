@@ -36,4 +36,3 @@ def unauthorized_endpoint() -> str:
 def forbidden_endpoint() -> str:
     """ GET /api/v1/status and abort"""
     abort(403)
-
