@@ -33,8 +33,8 @@ class Auth:
             if excluded_path.endswith('*'):
                 if fnmatch(path, excluded_path[:-1]):
                     return False
-            else:
-                if path == excluded_path.rstrip('/'):
+                else:
+                    if path == excluded_path.rstrip('/'):
                         return False
         return True
 
