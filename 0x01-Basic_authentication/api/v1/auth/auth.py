@@ -7,6 +7,7 @@ This module contains a class for authentication
 
 from flask import request
 from typing import List, TypeVar
+from fnmatch import fnmatch
 
 
 User = TypeVar('User')
@@ -28,7 +29,14 @@ class Auth:
             return True
 
         path = path.rstrip('/')
-        excluded_paths = [p.rstrip('/') for p in excluded_paths]
+        for excluded_path in excluded_paths:
+            if excluded_path.endswith('*'):
+                if fnmatch(path, excluded_path[:-1]):
+                    return False
+                else:
+                    if path == excluded_path.rstrip('/'):
+                        return False
+        return True
 
         return path not in excluded_paths
 
