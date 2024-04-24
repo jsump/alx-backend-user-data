@@ -4,6 +4,7 @@ DB module
 """
 
 
+import bcypt
 from sqlalchemy import create_engine, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -82,4 +83,3 @@ class DB:
             self._session.commit()
         except NoResultFound_ORM:
             raise NoResultFound
-
