@@ -10,6 +10,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import NoResultFound, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound as NoResultFound_ORM
+from typing import Union
 
 from user import User
 
@@ -51,7 +52,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> Union[User, None]:
         """
         THis method takes in arbitrary keyword args
         Returns first row found in users table as filtered by args
