@@ -15,7 +15,7 @@ class User(Base):
     This class is an SQLAlchemy model for a database table
     named users(by using the mapping declaration of SQLAlchemy)
     """
-    __tablename__: 'users'
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     email = Column(String, nullable=False)
     hashed_password = Column(String, nullable=False)
