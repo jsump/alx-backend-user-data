@@ -8,6 +8,8 @@ from sqlalchemy import create_engine, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import NoResultFound, InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound as NoResultFound_ORM
 
 from user import User
 
@@ -48,3 +50,18 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs):
+        """
+        THis method takes in arbitrary keyword args
+        Returns first row found in users table as filtered by args
+        """
+        try:
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if user is None:
+                raise NoResultFound
+            return user
+        except NoResultFound_ORM:
+            raise NoResultFound
+        except InvalidRequestError:
+            raise
