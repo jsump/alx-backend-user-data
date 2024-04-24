@@ -22,7 +22,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -41,9 +41,8 @@ class DB:
         """
         Add new user to DB
         """
-        max_user = self._session.query(func.max(User.id)).scalar()
-        max_user_id = 0 if max_user is None else max_user
-        new_user_id = max_user + 1
+        num_user = self._session.query(func.max(User.id)).scalar()
+        new_user_id = num_user + 1
 
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
