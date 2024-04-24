@@ -72,11 +72,11 @@ class DB:
         This method updates user attributes
         """
         user = self.find_user_by(id=user_id)
-        try:
-            for key, value in kwargs.items():
-                if not hasattr(user, key):
-                    raise ValueError(f"Wrong attribute '{key}'")
-                setattr(user, key, value)
-            self._session.commit()
-        except NoResultFound_ORM:
+        if user is None:
             raise NoResultFound
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError(f"Wrong attribute '{key}'")
+            setattr(user, key, value)
+            self._session.commit()
+
