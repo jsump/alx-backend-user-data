@@ -74,9 +74,12 @@ class DB:
         user = self.find_user_by(id=user_id)
         if user is None:
             raise NoResultFound
-        for key, value in kwargs.items():
-            if not hasattr(user, key):
-                raise ValueError(f"Wrong attribute '{key}'")
-            setattr(user, key, value)
+        try:
+            for key, value in kwargs.items():
+                if not hasattr(user, key):
+                    raise ValueError(f"Wrong attribute '{key}'")
+                setattr(user, key, value)
             self._session.commit()
+        except NoResultFound_ORM:
+            raise NoResultFound
 
