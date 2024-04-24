@@ -66,3 +66,17 @@ class DB:
             raise NoResultFound
         except InvalidRequestError:
             raise
+
+    def update_user(self, user_id: int, **kwargs: Any) -> None:
+        """
+        This method updates user attributes
+        """
+        user = self.find_user_by(id=user_id)
+        try:
+            for key, value in kwargs.items():
+                if not hasattr(user, key):
+                    raise ValueError(f"Wrong attribute '{key}'")
+                setattr(user, key, value)
+            self._session.commit()
+        except NoResultFound_ORM:
+            raise NoResultFound
