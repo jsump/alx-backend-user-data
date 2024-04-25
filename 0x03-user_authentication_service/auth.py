@@ -62,7 +62,11 @@ class Auth:
         """
         This method generates a new UUID
         """
-        return str(uuid.uuid4())
+        try:
+            return str(uuid.uuid4())
+        except Exception as e:
+            print(f"Error: {e}")
+            return ""
 
     def create_session(self, email: str) -> str:
         """
