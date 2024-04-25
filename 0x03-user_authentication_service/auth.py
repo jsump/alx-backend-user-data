@@ -7,7 +7,7 @@ Authentication file
 import bcrypt
 import uuid
 import hashlib
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound as NoResultFound_ORM
 from typing import Any
 from db import DB
 from user import User
@@ -36,7 +36,7 @@ class Auth:
         try:
             self._db.find_user_by(email=email)
             raise ValueError(f"User {email} already exists")
-        except NoResultFound:
+        except NoResultFound_ORM:
             pass
 
         hashed_password = _hash_password(password)
@@ -48,14 +48,17 @@ class Auth:
         """
         Validate login
         """
-        user = self._db.find_user_by(email=email)
+        try:
+            user = self._db.find_user_by(email=email)
 
-        if user:
-            hashed_password = user.hashed_password.encode('utf-8')
-            provided_password = password.encode('utf-8')
+            if user:
+                hashed_password = user.hashed_password.encode('utf-8')
+                provided_password = password.encode('utf-8')
 
-            if bcrypt.checkpw(provided_password, hashed_password):
-                return True
+                if bcrypt.checkpw(provided_password, hashed_password):
+                    return True
+        except NoResultFound_ORM:
+            pass
         return False
 
     def _generate_uuid() -> str:
