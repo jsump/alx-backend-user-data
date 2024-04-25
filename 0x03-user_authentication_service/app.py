@@ -6,12 +6,10 @@ Flask app
 
 
 from flask import Flask, jsonify, request
-from auth import Auth
-
-
-AUTH = Auth()
+from
 
 app = Flask(__name__)
+AUTH = Auth()
 
 
 @app.route('/')
