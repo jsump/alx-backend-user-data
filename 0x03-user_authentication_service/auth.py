@@ -99,7 +99,7 @@ class Auth:
         This method generated a UUID and update for user's
         reset token DB field and returns the token
         """
-        user = self._db.find_user_by(email)
+        user = self._db.find_user_by(email=email)
 
         if user is None:
             raise ValueError("User does not exist")
