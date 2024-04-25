@@ -5,16 +5,15 @@ Flask app
 """
 
 
-from flask import Fals, jsonify
+from flask import Flask, jsonify
 
 
-app= Flask(__name__)
+app = Flask(__name__)
 
 
 @app.route('/')
 def index():
     return jsonify({"message": "Bienvenue"})
-
 
 
 if __name__ == "__main__":
