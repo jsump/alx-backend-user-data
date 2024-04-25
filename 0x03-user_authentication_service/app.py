@@ -4,7 +4,7 @@ Module: app.py
 Flask app
 """
 
-
+import uuid
 from flask import Flask, jsonify, request, make_response, abort, redirect
 from auth import Auth
 
@@ -80,6 +80,24 @@ def profile():
 
     if user is not None:
         return jsonify({"email": user.email}), 200
+    else:
+        abort(403)
+
+
+@app.route('/reset_password', methods=['POST'])
+def get_reset_password_token():
+    """
+    This method responds to getting the reset password token
+    """
+    email = request.form.get(email)
+
+    user = find_user_by(email)
+
+    if user is not None:
+        token = str(uuid.uuid4())
+        update_reset_token(user.id, token)
+
+        return jsonify({"email": "<user email>", "reset_token": "<reset token>"})
     else:
         abort(403)
 
