@@ -79,3 +79,4 @@ class DB:
             self._session.commit()
         except NoResultFound_ORM:
             raise NoResultFound
+

@@ -41,3 +41,17 @@ class Auth:
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(password.encode(), salt)
         return hashed_password
+
+    def valid_login(self, email, password):
+        """
+        Validate login
+        """
+        user = self.find_user_by(email)
+
+        if user:
+            hashed_password = user.password.encode('utf-8')
+            provided_passoword = password.encode('utf-8')
+
+            if bcrypt.checkpw(provided_passoword, hashed_password):
+                return True
+        return False
