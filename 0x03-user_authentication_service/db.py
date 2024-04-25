@@ -59,9 +59,9 @@ class DB:
         """
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
+            if user is None:
+                raise NoResultFound_ORM
             return user
-        except NoResultFound_ORM:
-            raise None
         except InvalidRequestError:
             raise
 
@@ -71,7 +71,7 @@ class DB:
         """
         user = self.find_user_by(id=user_id)
         if user is None:
-            raise NoResultFound
+            raise NoResultFound_ORM
         try:
             for key, value in kwargs.items():
                 if not hasattr(user, key):
