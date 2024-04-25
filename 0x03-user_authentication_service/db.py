@@ -6,10 +6,8 @@ DB module
 
 from sqlalchemy import create_engine, func
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.exc import NoResultFound, InvalidRequestError
+from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound as NoResultFound_ORM
 from typing import Any, Optional
 
@@ -26,7 +24,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -62,10 +60,10 @@ class DB:
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
             if user is None:
-                raise NoResultFound
+                raise NoResultFound_ORM
             return user
         except NoResultFound_ORM:
-            raise NoResultFound
+            raise NoResultFound_ORM
         except InvalidRequestError:
             raise
 
