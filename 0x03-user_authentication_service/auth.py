@@ -12,12 +12,12 @@ from user import User
 
 
 def _hash_password(password: str) -> bytes:
-        """
-        This method in password string args and returns bytes
-        """
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password.encode(), salt)
-        return hashed_password
+    """
+    This method in password string args and returns bytes
+    """
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode(), salt)
+    return hashed_password
 
 
 class Auth:
