@@ -95,4 +95,18 @@ class Auth:
         """
         This method destroys the session
         """
-        self._db.update_Session_id(user_id, None)
+        self._db.update_session_id(user_id, None)
+    
+    def get_reset_password_token(self, eail: str) -> str:
+        """
+        This method generated a UUID and update for user's
+        reset token DB field and returns the token
+        """
+        user = self._db.find_user_by(email)
+
+        if user is None:
+            raise ValueError("User does not exist")
+        token = str(uuid.uuid4())
+        self._db.update_reset_token(user.id, token)
+        return token
+        

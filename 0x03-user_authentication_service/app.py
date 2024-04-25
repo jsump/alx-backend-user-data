@@ -5,7 +5,7 @@ Flask app
 """
 
 
-from flask import Flask, jsonify, request, make_response, abort
+from flask import Flask, jsonify, request, make_response, abort, redirect
 from auth import Auth
 
 
@@ -62,6 +62,26 @@ def logout():
     """
     session_id = request.cookies.get('session_id')
     user = get_user_from_session_id(session_id)
+
+    if user is not None:
+        destroy_session(user,id)
+        return redirect('/')
+    else:
+        abort(403)
+
+
+@app.route('/profile', methods=['GET'])
+def profile():
+    """
+    this method gets user profile
+    """
+    session_id = request.cookies.get('session_id')
+    user = get_user_from_sessoin_id(session_id)
+
+    if user is not None:
+        return jsonify({"email": user.email}), 200
+    else:
+        abort(403)
 
 
 if __name__ == "__main__":
