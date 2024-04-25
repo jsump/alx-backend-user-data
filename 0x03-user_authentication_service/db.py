@@ -44,9 +44,6 @@ class DB:
         """
         Add new user to DB
         """
-        num_user = self._session.query(func.max(User.id)).scalar()
-        new_user_id = num_user + 1
-
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
