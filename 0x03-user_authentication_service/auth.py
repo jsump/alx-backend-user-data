@@ -72,10 +72,12 @@ class Auth:
         This method creates a new session
         """
         user = self._db.find_user_by(email)
-        session_id = str(uuid.uuid4())
-        self._db.store_session_id(user.id, session_id)
-
-        return session_id
+        if user:
+            session_id = str(uuid.uuid4())
+            self._db.store_session_id(user.id, session_id)
+            return session_id
+        else:
+            raise ValueError("User not found")
 
     def get_user_from_session_id(self, session_id: str):
         """
