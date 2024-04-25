@@ -65,7 +65,7 @@ class Auth:
         """
         This method generates a new UUID
         """
-        return str(uuid.uuid4)
+        return str(uuid.uuid4())
 
     def create_session(self, email: str) -> str:
         """
