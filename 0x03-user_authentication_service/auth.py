@@ -81,3 +81,12 @@ class Auth:
         self._db.store_session_id(user.id, session_id)
 
         return session_id
+    
+    def get_user_from_session_id(self, session_id: str):
+        """
+        This method gets use fom session id
+        """
+        if session_id is None:
+            return None
+        user = self._db.get_user_by_session_id(session_id)
+        return user
