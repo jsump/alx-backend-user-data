@@ -11,6 +11,14 @@ from db import DB
 from user import User
 
 
+def _hash_password(password: str) -> bytes:
+    """
+    This method in password string args and returns bytes
+    """
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode(), salt)
+    return hashed_password
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -42,16 +50,16 @@ class Auth:
         hashed_password = bcrypt.hashpw(password.encode(), salt)
         return hashed_password
 
-    def valid_login(self, email, password):
+    def valid_login(self, email: str, password: str) -> bool:
         """
         Validate login
         """
-        user = self.find_user_by(email)
+        user = self._db.find_user_by(email)
 
         if user:
-            hashed_password = user.password.encode('utf-8')
-            provided_passoword = password.encode('utf-8')
+            hashed_password = user.hashed_password.encode('utf-8')
+            provided_password = password.encode('utf-8')
 
-            if bcrypt.checkpw(provided_passoword, hashed_password):
+            if bcrypt.checkpw(provided_password, hashed_password):
                 return True
         return False
