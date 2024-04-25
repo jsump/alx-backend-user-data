@@ -109,4 +109,10 @@ class Auth:
         token = str(uuid.uuid4())
         self._db.update_reset_token(user.id, token)
         return token
+    
+    def update_password(self, reset_token: str, password: str) -> None:
+        """
+        This method updates password
+        """
+        user = self._db.get_user_by_reset_token(reset_token)
         
