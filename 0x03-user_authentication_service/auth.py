@@ -81,7 +81,7 @@ class Auth:
         self._db.store_session_id(user.id, session_id)
 
         return session_id
-    
+
     def get_user_from_session_id(self, session_id: str):
         """
         This method gets use fom session id
@@ -90,3 +90,9 @@ class Auth:
             return None
         user = self._db.get_user_by_session_id(session_id)
         return user
+
+    def destroy_session(self, user_id: int) -> None:
+        """
+        This method destroys the session
+        """
+        self._db.update_Session_id(user_id, None)
