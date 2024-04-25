@@ -80,3 +80,9 @@ class DB:
             self._session.commit()
         except NoResultFound_ORM:
             raise NoResultFound_ORM
+        
+    def update_session_id(user_id: int, session_id: str) -> None:
+        """
+        Update session id method
+        """
+        pass
