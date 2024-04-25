@@ -8,7 +8,7 @@ import bcrypt
 import uuid
 import hashlib
 from sqlalchemy.orm.exc import NoResultFound as NoResultFound_ORM
-from typing import Any
+from typing import Any, Optional
 from db import DB
 from user import User
 
@@ -80,7 +80,7 @@ class Auth:
         else:
             raise ValueError("User not found")
 
-    def get_user_from_session_id(self, session_id: str):
+    def get_user_from_session_id(self, session_id: str) -> Optional[User]:
         """
         This method gets use fom session id
         """
@@ -97,7 +97,7 @@ class Auth:
         """
         self._db.update_session_id(user_id, None)
 
-    def get_reset_password_token(self, eail: str) -> str:
+    def get_reset_password_token(self, email: str) -> str:
         """
         This method generated a UUID and update for user's
         reset token DB field and returns the token
