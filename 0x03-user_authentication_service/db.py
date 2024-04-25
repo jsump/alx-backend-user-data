@@ -8,6 +8,7 @@ from sqlalchemy import create_engine, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.exc import NoResultFound, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound as NoResultFound_ORM
 from typing import Any, Optional
@@ -45,13 +46,17 @@ class DB:
         Add new user to DB
         """
         user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
+        try:
+            self._session.add(user)
+            self._session.commit()
+        except IntegrityError:
+            self._session.rollback()
+            raise ValueError("User email already exists")
         return user
 
     def find_user_by(self, **kwargs: Any) -> Optional[User]:
         """
-        THis method takes in arbitrary keyword args
+        This method takes in arbitrary keyword args
         Returns first row found in users table as filtered by args
         """
         try:
