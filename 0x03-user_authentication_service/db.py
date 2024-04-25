@@ -79,4 +79,4 @@ class DB:
                 setattr(user, key, value)
             self._session.commit()
         except NoResultFound_ORM:
-            raise NoResultFound
+            raise NoResultFound_ORM
