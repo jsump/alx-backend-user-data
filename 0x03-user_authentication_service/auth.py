@@ -5,6 +5,7 @@ Authentication file
 """
 
 import bcrypt
+import uuid
 from sqlalchemy.orm.exc import NoResultFound
 from typing import Any
 from db import DB
@@ -63,3 +64,9 @@ class Auth:
             if bcrypt.checkpw(provided_password, hashed_password):
                 return True
         return False
+    
+    def _generate_uuid() -> str:
+        """
+        This method generates a new UUID
+        """
+        return str(uuid.uuid4)
