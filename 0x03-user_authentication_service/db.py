@@ -61,7 +61,7 @@ class DB:
             user = self._session.query(User).filter_by(**kwargs).first()
             return user
         except NoResultFound_ORM:
-            raise None
+            raise NoResultFound_ORM
         except InvalidRequestError:
             raise
 
