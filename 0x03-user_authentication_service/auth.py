@@ -48,14 +48,17 @@ class Auth:
         """
         Validate login
         """
-        user = self._db.find_user_by(email=email)
+        try:
+            user = self._db.find_user_by(email=email)
 
-        if user:
-            hashed_password = user.hashed_password.encode('utf-8')
-            provided_password = password.encode('utf-8')
+            if user:
+                hashed_password = user.hashed_password.encode('utf-8')
+                provided_password = password.encode('utf-8')
 
-            if bcrypt.checkpw(provided_password, hashed_password):
-                return True
+                if bcrypt.checkpw(provided_password, hashed_password):
+                    return True
+        except Exception as e:
+            print(f"Error: {e}")
         return False
 
     def _generate_uuid() -> str:
