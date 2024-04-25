@@ -5,11 +5,19 @@ Authentication file
 """
 
 import bcrypt
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 from typing import Any
 from db import DB
 from user import User
-from typing import Any
+
+
+def _hash_password(password: str) -> bytes:
+        """
+        This method in password string args and returns bytes
+        """
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(password.encode(), salt)
+        return hashed_password
 
 
 class Auth:
@@ -18,14 +26,6 @@ class Auth:
 
     def __init__(self):
         self._db = DB()
-
-    def _hash_password(self, password: str) -> bytes:
-        """
-        This method in password string args and returns bytes
-        """
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password.encode(), salt)
-        return hashed_password
 
     def register_user(self, email: str, password: str) -> User:
         """
