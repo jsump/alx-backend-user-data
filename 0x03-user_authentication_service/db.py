@@ -52,7 +52,7 @@ class DB:
             raise ValueError("User email already exists")
         return user
 
-    def find_user_by(self, **kwargs: Any) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """
         This method takes in arbitrary keyword args
         Returns first row found in users table as filtered by args
