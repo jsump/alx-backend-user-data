@@ -66,7 +66,6 @@ class Auth:
         This method generates a new UUID
         """
         try:
-            new_uuid = uuid.uuid4()
             return str(new_uuid)
         except Exception as e:
             print(f"Error generating UUID: {e}")
