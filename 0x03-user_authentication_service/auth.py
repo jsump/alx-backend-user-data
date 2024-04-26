@@ -60,7 +60,8 @@ class Auth:
             return True
         return False
 
-    def _generate_uuid(self, new_uuid) -> str:
+    @staticmethod
+    def _generate_uuid() -> str:
         """
         This method generates a new UUID
         """
