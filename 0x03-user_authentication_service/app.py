@@ -53,7 +53,7 @@ def login():
         response = make_response(
             jsonify({"email": email, "message": "logged in"})), 200
         response.set_cookie("session_id", session_id)
-        return response
+        return response, 200
     else:
         abort(401)
 
