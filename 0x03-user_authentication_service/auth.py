@@ -22,6 +22,16 @@ def _hash_password(password: str) -> bytes:
     return hashed_password
 
 
+def _generate_uuid() -> str:
+    """
+    This method generates a new UUID
+    """
+    try:
+        return str(new_uuid)
+    except Exception as e:
+        print(f"Error generating UUID: {e}")
+        return ""
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -59,17 +69,6 @@ class Auth:
         if bcrypt.checkpw(provided_password, hashed_password):
             return True
         return False
-
-    @staticmethod
-    def _generate_uuid() -> str:
-        """
-        This method generates a new UUID
-        """
-        try:
-            return str(new_uuid)
-        except Exception as e:
-            print(f"Error generating UUID: {e}")
-            return ""
 
     def create_session(self, email: str) -> str:
         """
