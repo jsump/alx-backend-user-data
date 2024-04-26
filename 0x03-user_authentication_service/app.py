@@ -7,6 +7,7 @@ Flask app
 import uuid
 from flask import Flask, jsonify, request, make_response, abort, redirect
 from auth import Auth
+from auth import _generate_uuid
 
 
 AUTH = Auth()
@@ -48,7 +49,7 @@ def login():
         abort(401)
 
     if AUTH.valid_login(email, password):
-        session_id = generate_session_id()
+        session_id = _generate_uuid()
         response = make_response(
             jsonify({"email": email, "message": "logged in"})), 200
         response.set_cookie("session_id", session_id)
