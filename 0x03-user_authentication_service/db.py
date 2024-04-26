@@ -79,4 +79,4 @@ class DB:
                 setattr(user, key, value)
             self._session.commit()
         except NoResultFound_ORM:
-            raise NoResultFound_ORM
+            raise ValueError(f"User with id {user_id} not found")
