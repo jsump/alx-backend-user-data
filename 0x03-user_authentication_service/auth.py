@@ -75,7 +75,7 @@ class Auth:
         """
         user = self._db.find_user_by(email=email)
         if user:
-            session_id = str(uuid.uuid4())
+            session_id = _generate_uuid
             user.session_id = session_id
             self._db.commit()
             return session_id
