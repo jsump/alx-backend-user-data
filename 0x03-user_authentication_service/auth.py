@@ -65,9 +65,10 @@ class Auth:
         This method generates a new UUID
         """
         try:
-            return str(uuid.uuid4())
+            new_uuid = uuid.uuid4()
+            return str(new_uuid)
         except Exception as e:
-            print(f"Error: {e}")
+            print(f"Error generating UUID: {e}")
             return ""
 
     def create_session(self, email: str) -> str:
