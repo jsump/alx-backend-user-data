@@ -27,7 +27,7 @@ def _generate_uuid() -> str:
     This method generates a new UUID
     """
     try:
-        return str(new_uuid)
+        return str(uuid.uuid4())
     except Exception as e:
         print(f"Error generating UUID: {e}")
         return ""
