@@ -21,6 +21,7 @@ def _hash_password(password: str) -> bytes:
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
     return hashed_password
 
+
 def _generate_uuid() -> str:
     """
     This method generates a new UUID
@@ -30,6 +31,7 @@ def _generate_uuid() -> str:
     except Exception as e:
         print(f"Error generating UUID: {e}")
         return ""
+
 
 class Auth:
     """Auth class to interact with the authentication database.
